@@ -1,0 +1,20 @@
+#!/bin/sh
+
+
+#Used for DDoS security layer and ip user list
+# do this forever to update ip's quickly
+while true
+do
+	echo "clearing both files.."
+	> file1.txt
+	> file2.txt
+#list the number of ips uniquly and number of times it has access in each instance
+	netstat -tn 2>/dev/null | grep :[*]* | awk '{print $5}' | cut -d: -f1 | sort | uniq -c | sort -nr | head >> file1.txt
+
+#print all unique IPs to file 2 for reading in the application
+	awk '{print $2}' file1.txt >> file2.txt
+	
+	echo "new ip batch..." 
+	sleep 3
+
+done
